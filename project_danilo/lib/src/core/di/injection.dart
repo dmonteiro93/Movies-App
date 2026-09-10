@@ -1,0 +1,14 @@
+import 'package:flutter_application_1/src/features/forms/controllers/forms_controller.dart';
+import 'package:flutter_application_1/src/features/forms/data/datasources/user_datasource.dart';
+import 'package:flutter_application_1/src/features/forms/data/repositories/user_repository.dart';
+import 'package:get_it/get_it.dart';
+
+final getIt = GetIt.instance;
+
+void setupLocator() {
+  getIt.registerFactory<UserDatasource>(() => UserDatasource());
+
+  getIt.registerFactory<UserRepository>(() => UserRepository(getIt()));
+
+  getIt.registerLazySingleton<FormsController>(() => FormsController(getIt()));
+}
