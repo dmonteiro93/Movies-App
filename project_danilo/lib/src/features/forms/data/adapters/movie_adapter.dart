@@ -10,4 +10,6 @@ class MovieAdapter {
 
     return Movies.fromBuffer(encodedProto);
   }
+
+  
 }

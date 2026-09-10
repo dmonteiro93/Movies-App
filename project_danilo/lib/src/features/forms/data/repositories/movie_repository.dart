@@ -22,4 +22,18 @@ class MovieRepository {
       return (null, e.toString());
     }
   }
+
+  Future<(bool, String?)> rentMovie(Rental rental) async {
+    try {
+      final response = await _datasource.rentMovie(rental);
+
+      if (!response.$1) {
+        return (false, response.$2);
+      }
+
+      return (true, null);
+    } on Exception catch (e) {
+      return (false, e.toString());
+    }
+  }
 }

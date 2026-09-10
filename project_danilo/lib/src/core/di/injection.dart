@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/src/features/forms/controllers/login_controller.dart';
+import 'package:flutter_application_1/src/features/forms/controllers/movie_controller.dart';
 import 'package:flutter_application_1/src/features/forms/data/datasources/movie_datasource.dart';
 import 'package:flutter_application_1/src/features/forms/data/datasources/user_datasource.dart';
 import 'package:flutter_application_1/src/features/forms/data/repositories/movie_repository.dart';
@@ -9,22 +10,29 @@ final getIt = GetIt.instance;
 
 void setupLocator() {
   getIt.registerFactory<UserDatasource>(
-    () => UserDatasource()
-    );
+  () => UserDatasource()
+  );
 
   getIt.registerFactory<UserRepository>(
-    () => UserRepository(getIt()),
-    );
+  () => UserRepository(getIt()),
+  );
 
   getIt.registerLazySingleton<LoginController>(
-    () => LoginController(getIt()),
+  () => LoginController(getIt()),
   );
 
   getIt.registerFactory<MovieDatasource>(
-    () => MovieDatasource()
-    );
+  () => MovieDatasource()
+  );
 
   getIt.registerFactory<MovieRepository>(
   () => MovieRepository(getIt()),
   );
+  
+  getIt.registerFactory<MovieController>(
+  () => MovieController(
+    getIt(),
+    getIt(),
+  ),
+);
 }
