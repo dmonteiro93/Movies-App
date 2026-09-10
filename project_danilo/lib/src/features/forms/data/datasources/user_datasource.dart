@@ -6,30 +6,29 @@ import 'package:http/http.dart' as http;
 class UserDatasource {
   final _client = http.Client();
 
-  Future<Uint8List> showInformations() async {
+  Future<(Uint8List?, String?)> login(Uint8List userBytes) async {
     try {
-      final uri = Uri.parse(showInformationsRoute);
-      final response = await _client.get(
-        uri,
-        headers: {'forms-client-token': userToken},
-      );
-      return response.bodyBytes;
-    } on Exception {
-      throw Exception('Failed to connect to the server');
-    }
-  }
+      final uri = Uri.parse(loginRoute);
 
-  Future<bool> updateInformations(Uint8List userEncoded) async {
-    try {
-      final uri = Uri.parse(updateInformationsRoute);
       final response = await _client.post(
         uri,
-        body: userEncoded,
-        headers: {'forms-client-token': userToken},
+        body: userBytes,
+        headers: {
+          'Content-Type': 'application/x-protobuf',
+        },
       );
-      return response.statusCode == 200;
+
+      if (response.statusCode == 401) {
+        return (null, 'Username or password invalid');
+      }
+
+      if (response.statusCode != 200) {
+        return (null, 'Failed to login');
+      }
+
+      return (response.bodyBytes, null);
     } on Exception {
-      throw Exception('Failed to connect to the server');
+      return (null, 'Was not possible connect to server');
     }
   }
 }

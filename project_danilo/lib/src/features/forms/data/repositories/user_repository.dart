@@ -1,29 +1,27 @@
 import 'package:flutter_application_1/src/features/forms/data/adapters/user_adapter.dart';
 import 'package:flutter_application_1/src/features/forms/data/datasources/user_datasource.dart';
-import 'package:flutter_application_1/src/shared/proto/client.pb.dart';
+import 'package:flutter_application_1/src/shared/proto/package.pb.dart';
 
 class UserRepository {
   final UserDatasource _datasource;
 
   UserRepository(this._datasource);
 
-  Future<(User?, Exception?)> showInformations() async {
+  Future<(User?, String?)> login(User user) async {
     try {
-      var result = await _datasource.showInformations();
-      var user = UserAdapter.bytesToUser(result);
-      return (user, null);
-    } on Exception catch (e) {
-      return (null, e);
-    }
-  }
+      final userBytes = UserAdapter.userToBytes(user);
 
-  Future<(bool, Exception?)> updateInformations(User user) async {
-    try {
-      var userEncoded = UserAdapter.userToBytes(user);
-      var result = await _datasource.updateInformations(userEncoded);
-      return (result, null);
+      final response = await _datasource.login(userBytes);
+
+      if (response.$1 == null) {
+        return (null, response.$2);
+      }
+
+      final loggedUser = UserAdapter.bytesToUser(response.$1!);
+
+      return (loggedUser, null);
     } on Exception catch (e) {
-      return (false, e);
+      return (null, e.toString());
     }
   }
 }

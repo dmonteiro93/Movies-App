@@ -8,7 +8,7 @@
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: curly_braces_in_flow_control_structures
 // ignore_for_file: deprecated_member_use_from_same_package, library_prefixes
-// ignore_for_file: non_constant_identifier_names, prefer_relative_imports
+// ignore_for_file: non_constant_identifier_names
 
 import 'dart:core' as $core;
 
@@ -18,11 +18,13 @@ export 'package:protobuf/protobuf.dart' show GeneratedMessageGenericExtensions;
 
 class User extends $pb.GeneratedMessage {
   factory User({
-    $core.String? login,
+    $core.int? id,
+    $core.String? username,
     $core.String? password,
   }) {
     final result = create();
-    if (login != null) result.login = login;
+    if (id != null) result.id = id;
+    if (username != null) result.username = username;
     if (password != null) result.password = password;
     return result;
   }
@@ -39,11 +41,12 @@ class User extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'User',
       createEmptyInstance: create)
-    ..aQS(1, _omitFieldNames ? '' : 'login')
-    ..aQS(2, _omitFieldNames ? '' : 'password');
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.Q3)
+    ..aQS(2, _omitFieldNames ? '' : 'username')
+    ..aQS(3, _omitFieldNames ? '' : 'password');
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  User clone() => deepCopy();
+  User clone() => User()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   User copyWith(void Function(User) updates) =>
       super.copyWith((message) => updates(message as User)) as User;
@@ -55,42 +58,58 @@ class User extends $pb.GeneratedMessage {
   static User create() => User._();
   @$core.override
   User createEmptyInstance() => create();
+  static $pb.PbList<User> createRepeated() => $pb.PbList<User>();
   @$core.pragma('dart2js:noInline')
   static User getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<User>(create);
   static User? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get login => $_getSZ(0);
+  $core.int get id => $_getIZ(0);
   @$pb.TagNumber(1)
-  set login($core.String value) => $_setString(0, value);
+  set id($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
-  $core.bool hasLogin() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearLogin() => $_clearField(1);
+  void clearId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get password => $_getSZ(1);
+  $core.String get username => $_getSZ(1);
   @$pb.TagNumber(2)
-  set password($core.String value) => $_setString(1, value);
+  set username($core.String value) => $_setString(1, value);
   @$pb.TagNumber(2)
-  $core.bool hasPassword() => $_has(1);
+  $core.bool hasUsername() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPassword() => $_clearField(2);
+  void clearUsername() => $_clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get password => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set password($core.String value) => $_setString(2, value);
+  @$pb.TagNumber(3)
+  $core.bool hasPassword() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPassword() => $_clearField(3);
 }
 
 class Movie extends $pb.GeneratedMessage {
   factory Movie({
-    $core.String? id,
+    $core.int? id,
     $core.String? title,
-    $core.String? genre,
-    $core.double? price,
+    $core.List<$core.int>? cover,
+    $core.double? value,
+    $core.String? year,
+    $core.String? director,
+    $core.String? sinopse,
   }) {
     final result = create();
     if (id != null) result.id = id;
     if (title != null) result.title = title;
-    if (genre != null) result.genre = genre;
-    if (price != null) result.price = price;
+    if (cover != null) result.cover = cover;
+    if (value != null) result.value = value;
+    if (year != null) result.year = year;
+    if (director != null) result.director = director;
+    if (sinopse != null) result.sinopse = sinopse;
     return result;
   }
 
@@ -106,13 +125,17 @@ class Movie extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Movie',
       createEmptyInstance: create)
-    ..aQS(1, _omitFieldNames ? '' : 'id')
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.Q3)
     ..aQS(2, _omitFieldNames ? '' : 'title')
-    ..aOS(3, _omitFieldNames ? '' : 'genre')
-    ..aD(4, _omitFieldNames ? '' : 'price', fieldType: $pb.PbFieldType.QD);
+    ..a<$core.List<$core.int>>(
+        3, _omitFieldNames ? '' : 'cover', $pb.PbFieldType.QY)
+    ..a<$core.double>(4, _omitFieldNames ? '' : 'value', $pb.PbFieldType.QF)
+    ..aQS(5, _omitFieldNames ? '' : 'year')
+    ..aQS(6, _omitFieldNames ? '' : 'director')
+    ..aQS(7, _omitFieldNames ? '' : 'sinopse');
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Movie clone() => deepCopy();
+  Movie clone() => Movie()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Movie copyWith(void Function(Movie) updates) =>
       super.copyWith((message) => updates(message as Movie)) as Movie;
@@ -124,15 +147,16 @@ class Movie extends $pb.GeneratedMessage {
   static Movie create() => Movie._();
   @$core.override
   Movie createEmptyInstance() => create();
+  static $pb.PbList<Movie> createRepeated() => $pb.PbList<Movie>();
   @$core.pragma('dart2js:noInline')
   static Movie getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Movie>(create);
   static Movie? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
+  $core.int get id => $_getIZ(0);
   @$pb.TagNumber(1)
-  set id($core.String value) => $_setString(0, value);
+  set id($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
   $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
@@ -148,38 +172,106 @@ class Movie extends $pb.GeneratedMessage {
   void clearTitle() => $_clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get genre => $_getSZ(2);
+  $core.List<$core.int> get cover => $_getN(2);
   @$pb.TagNumber(3)
-  set genre($core.String value) => $_setString(2, value);
+  set cover($core.List<$core.int> value) => $_setBytes(2, value);
   @$pb.TagNumber(3)
-  $core.bool hasGenre() => $_has(2);
+  $core.bool hasCover() => $_has(2);
   @$pb.TagNumber(3)
-  void clearGenre() => $_clearField(3);
+  void clearCover() => $_clearField(3);
 
   @$pb.TagNumber(4)
-  $core.double get price => $_getN(3);
+  $core.double get value => $_getN(3);
   @$pb.TagNumber(4)
-  set price($core.double value) => $_setDouble(3, value);
+  set value($core.double value) => $_setFloat(3, value);
   @$pb.TagNumber(4)
-  $core.bool hasPrice() => $_has(3);
+  $core.bool hasValue() => $_has(3);
   @$pb.TagNumber(4)
-  void clearPrice() => $_clearField(4);
+  void clearValue() => $_clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get year => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set year($core.String value) => $_setString(4, value);
+  @$pb.TagNumber(5)
+  $core.bool hasYear() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearYear() => $_clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get director => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set director($core.String value) => $_setString(5, value);
+  @$pb.TagNumber(6)
+  $core.bool hasDirector() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearDirector() => $_clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get sinopse => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set sinopse($core.String value) => $_setString(6, value);
+  @$pb.TagNumber(7)
+  $core.bool hasSinopse() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearSinopse() => $_clearField(7);
+}
+
+class Movies extends $pb.GeneratedMessage {
+  factory Movies({
+    $core.Iterable<Movie>? movies,
+  }) {
+    final result = create();
+    if (movies != null) result.movies.addAll(movies);
+    return result;
+  }
+
+  Movies._();
+
+  factory Movies.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory Movies.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'Movies',
+      createEmptyInstance: create)
+    ..pc<Movie>(1, _omitFieldNames ? '' : 'movies', $pb.PbFieldType.PM,
+        subBuilder: Movie.create);
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  Movies clone() => Movies()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  Movies copyWith(void Function(Movies) updates) =>
+      super.copyWith((message) => updates(message as Movies)) as Movies;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Movies create() => Movies._();
+  @$core.override
+  Movies createEmptyInstance() => create();
+  static $pb.PbList<Movies> createRepeated() => $pb.PbList<Movies>();
+  @$core.pragma('dart2js:noInline')
+  static Movies getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Movies>(create);
+  static Movies? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbList<Movie> get movies => $_getList(0);
 }
 
 class Rental extends $pb.GeneratedMessage {
   factory Rental({
-    $core.String? id,
-    $core.String? userLogin,
-    $core.String? movieId,
-    $core.String? rentalDate,
-    $core.String? returnDate,
+    $core.int? userId,
+    $core.int? movieId,
   }) {
     final result = create();
-    if (id != null) result.id = id;
-    if (userLogin != null) result.userLogin = userLogin;
+    if (userId != null) result.userId = userId;
     if (movieId != null) result.movieId = movieId;
-    if (rentalDate != null) result.rentalDate = rentalDate;
-    if (returnDate != null) result.returnDate = returnDate;
     return result;
   }
 
@@ -195,14 +287,11 @@ class Rental extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Rental',
       createEmptyInstance: create)
-    ..aQS(1, _omitFieldNames ? '' : 'id')
-    ..aQS(2, _omitFieldNames ? '' : 'userLogin')
-    ..aQS(3, _omitFieldNames ? '' : 'movieId')
-    ..aOS(4, _omitFieldNames ? '' : 'rentalDate')
-    ..aOS(5, _omitFieldNames ? '' : 'returnDate');
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'userId', $pb.PbFieldType.Q3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'movieId', $pb.PbFieldType.Q3);
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  Rental clone() => deepCopy();
+  Rental clone() => Rental()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   Rental copyWith(void Function(Rental) updates) =>
       super.copyWith((message) => updates(message as Rental)) as Rental;
@@ -214,295 +303,25 @@ class Rental extends $pb.GeneratedMessage {
   static Rental create() => Rental._();
   @$core.override
   Rental createEmptyInstance() => create();
+  static $pb.PbList<Rental> createRepeated() => $pb.PbList<Rental>();
   @$core.pragma('dart2js:noInline')
   static Rental getDefault() =>
       _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Rental>(create);
   static Rental? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
+  $core.int get userId => $_getIZ(0);
   @$pb.TagNumber(1)
-  set id($core.String value) => $_setString(0, value);
+  set userId($core.int value) => $_setSignedInt32(0, value);
   @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
+  $core.bool hasUserId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => $_clearField(1);
+  void clearUserId() => $_clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get userLogin => $_getSZ(1);
+  $core.int get movieId => $_getIZ(1);
   @$pb.TagNumber(2)
-  set userLogin($core.String value) => $_setString(1, value);
-  @$pb.TagNumber(2)
-  $core.bool hasUserLogin() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearUserLogin() => $_clearField(2);
-
-  @$pb.TagNumber(3)
-  $core.String get movieId => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set movieId($core.String value) => $_setString(2, value);
-  @$pb.TagNumber(3)
-  $core.bool hasMovieId() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearMovieId() => $_clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.String get rentalDate => $_getSZ(3);
-  @$pb.TagNumber(4)
-  set rentalDate($core.String value) => $_setString(3, value);
-  @$pb.TagNumber(4)
-  $core.bool hasRentalDate() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearRentalDate() => $_clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.String get returnDate => $_getSZ(4);
-  @$pb.TagNumber(5)
-  set returnDate($core.String value) => $_setString(4, value);
-  @$pb.TagNumber(5)
-  $core.bool hasReturnDate() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearReturnDate() => $_clearField(5);
-}
-
-class LoginRequest extends $pb.GeneratedMessage {
-  factory LoginRequest({
-    $core.String? login,
-    $core.String? senha,
-  }) {
-    final result = create();
-    if (login != null) result.login = login;
-    if (senha != null) result.senha = senha;
-    return result;
-  }
-
-  LoginRequest._();
-
-  factory LoginRequest.fromBuffer($core.List<$core.int> data,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
-  factory LoginRequest.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'LoginRequest',
-      createEmptyInstance: create)
-    ..aQS(1, _omitFieldNames ? '' : 'login')
-    ..aQS(2, _omitFieldNames ? '' : 'senha');
-
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  LoginRequest clone() => deepCopy();
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  LoginRequest copyWith(void Function(LoginRequest) updates) =>
-      super.copyWith((message) => updates(message as LoginRequest))
-          as LoginRequest;
-
-  @$core.override
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static LoginRequest create() => LoginRequest._();
-  @$core.override
-  LoginRequest createEmptyInstance() => create();
-  @$core.pragma('dart2js:noInline')
-  static LoginRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<LoginRequest>(create);
-  static LoginRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get login => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set login($core.String value) => $_setString(0, value);
-  @$pb.TagNumber(1)
-  $core.bool hasLogin() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearLogin() => $_clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get senha => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set senha($core.String value) => $_setString(1, value);
-  @$pb.TagNumber(2)
-  $core.bool hasSenha() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearSenha() => $_clearField(2);
-}
-
-class LoginResponse extends $pb.GeneratedMessage {
-  factory LoginResponse({
-    $core.bool? success,
-    $core.String? message,
-  }) {
-    final result = create();
-    if (success != null) result.success = success;
-    if (message != null) result.message = message;
-    return result;
-  }
-
-  LoginResponse._();
-
-  factory LoginResponse.fromBuffer($core.List<$core.int> data,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
-  factory LoginResponse.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'LoginResponse',
-      createEmptyInstance: create)
-    ..a<$core.bool>(1, _omitFieldNames ? '' : 'success', $pb.PbFieldType.QB)
-    ..aQS(2, _omitFieldNames ? '' : 'message');
-
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  LoginResponse clone() => deepCopy();
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  LoginResponse copyWith(void Function(LoginResponse) updates) =>
-      super.copyWith((message) => updates(message as LoginResponse))
-          as LoginResponse;
-
-  @$core.override
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static LoginResponse create() => LoginResponse._();
-  @$core.override
-  LoginResponse createEmptyInstance() => create();
-  @$core.pragma('dart2js:noInline')
-  static LoginResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<LoginResponse>(create);
-  static LoginResponse? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.bool get success => $_getBF(0);
-  @$pb.TagNumber(1)
-  set success($core.bool value) => $_setBool(0, value);
-  @$pb.TagNumber(1)
-  $core.bool hasSuccess() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearSuccess() => $_clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get message => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set message($core.String value) => $_setString(1, value);
-  @$pb.TagNumber(2)
-  $core.bool hasMessage() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearMessage() => $_clearField(2);
-}
-
-class MovieRequest extends $pb.GeneratedMessage {
-  factory MovieRequest({
-    $core.String? id,
-  }) {
-    final result = create();
-    if (id != null) result.id = id;
-    return result;
-  }
-
-  MovieRequest._();
-
-  factory MovieRequest.fromBuffer($core.List<$core.int> data,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
-  factory MovieRequest.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'MovieRequest',
-      createEmptyInstance: create)
-    ..aQS(1, _omitFieldNames ? '' : 'id');
-
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MovieRequest clone() => deepCopy();
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  MovieRequest copyWith(void Function(MovieRequest) updates) =>
-      super.copyWith((message) => updates(message as MovieRequest))
-          as MovieRequest;
-
-  @$core.override
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static MovieRequest create() => MovieRequest._();
-  @$core.override
-  MovieRequest createEmptyInstance() => create();
-  @$core.pragma('dart2js:noInline')
-  static MovieRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<MovieRequest>(create);
-  static MovieRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set id($core.String value) => $_setString(0, value);
-  @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearId() => $_clearField(1);
-}
-
-class RentalRequest extends $pb.GeneratedMessage {
-  factory RentalRequest({
-    $core.String? userLogin,
-    $core.String? movieId,
-  }) {
-    final result = create();
-    if (userLogin != null) result.userLogin = userLogin;
-    if (movieId != null) result.movieId = movieId;
-    return result;
-  }
-
-  RentalRequest._();
-
-  factory RentalRequest.fromBuffer($core.List<$core.int> data,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromBuffer(data, registry);
-  factory RentalRequest.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
-      create()..mergeFromJson(json, registry);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'RentalRequest',
-      createEmptyInstance: create)
-    ..aQS(1, _omitFieldNames ? '' : 'userLogin')
-    ..aQS(2, _omitFieldNames ? '' : 'movieId');
-
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RentalRequest clone() => deepCopy();
-  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  RentalRequest copyWith(void Function(RentalRequest) updates) =>
-      super.copyWith((message) => updates(message as RentalRequest))
-          as RentalRequest;
-
-  @$core.override
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static RentalRequest create() => RentalRequest._();
-  @$core.override
-  RentalRequest createEmptyInstance() => create();
-  @$core.pragma('dart2js:noInline')
-  static RentalRequest getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<RentalRequest>(create);
-  static RentalRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get userLogin => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set userLogin($core.String value) => $_setString(0, value);
-  @$pb.TagNumber(1)
-  $core.bool hasUserLogin() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearUserLogin() => $_clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get movieId => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set movieId($core.String value) => $_setString(1, value);
+  set movieId($core.int value) => $_setSignedInt32(1, value);
   @$pb.TagNumber(2)
   $core.bool hasMovieId() => $_has(1);
   @$pb.TagNumber(2)

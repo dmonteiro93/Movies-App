@@ -1,39 +1,26 @@
 syntax = "proto2";
 
 message User {
-    required string login = 1;
-    required string password = 2;
+    required int32 id = 1;
+    required string username = 2;
+    required string password = 3;
 }
 
 message Movie {
-   required string id = 1;
-   required string title = 2;
-   optional string genre = 3;
-   required double price = 4;
+    required int32 id = 1;
+    required string title = 2;
+    required bytes cover = 3;
+    required float value = 4;
+    required string year = 5;
+    required string director = 6;
+    required string sinopse = 7;
+}
+
+message Movies {
+    repeated Movie movies = 1;
 }
 
 message Rental {
-   required string id = 1;
-   required string user_login = 2;
-   required string movie_id = 3;
-   optional string rental_date = 4;
-   optional string return_date = 5;
-}
-
-message LoginRequest {
-   required string login = 1;
-   required string senha = 2;
-}
-
-message LoginResponse {
-   required bool success = 1;
-   required string message = 2;
-}
-
-message MovieRequest {
-   required string id = 1;
-}
-message RentalRequest {
-   required string user_login = 1;
-   required string movie_id = 2;
+    required int32 user_id = 1;
+    required int32 movie_id = 2;
 }

@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter_application_1/src/shared/proto/client.pb.dart';
+import 'package:flutter_application_1/src/shared/proto/package.pb.dart';
 
 class UserAdapter {
   static User bytesToUser(Uint8List encodedProto) {
