@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/core/di/injection.dart';
 import 'package:flutter_application_1/src/features/forms/controllers/login_controller.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -51,14 +52,9 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Login realizado com sucesso'),
-        ),
-      );
-
-      // Navegação para a Home será adicionada depois.
-    } else {
+      context.go('/home');
+    } 
+    else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
