@@ -1,7 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/core/di/injection.dart';
 import 'package:flutter_application_1/src/features/forms/controllers/login_controller.dart';
 import 'package:go_router/go_router.dart';
+import 'package:signals/signals_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _loading = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -26,42 +29,29 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login() async {
-    if (_usernameController.text.trim().isEmpty ||
-        _passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Preencha usuário e senha'),
-        ),
-      );
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
       return;
     }
 
     setState(() {
-      _loading = true;
+      _isLoading = true;
     });
 
-    final success = await _controller.login(
-      _usernameController.text.trim(),
-      _passwordController.text,
-    );
+    final success = await _controller.login(username, password);
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
-      _loading = false;
+      _isLoading = false;
     });
 
     if (success) {
       context.go('/home');
-    } 
-    else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            _controller.errorMessage ?? 'Erro ao realizar login',
-          ),
-        ),
-      );
     }
   }
 
@@ -72,133 +62,142 @@ class _LoginPageState extends State<LoginPage> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images.png',
-            fit: BoxFit.cover,
+            'assets/image.png',
+            repeat: ImageRepeat.repeat,
+            alignment: Alignment.topLeft,
+            fit: BoxFit.none,
           ),
-
-          Container(
-            color: Colors.black.withValues(alpha: 0.55),
-          ),
-
           Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(
-                  maxWidth: 420,
+                  maxWidth: 250,
                 ),
-                child: Card(
-                  elevation: 12,
-                  color: Colors.black.withValues(alpha: 0.75),
-                  child: Padding(
-                    padding: const EdgeInsets.all(28),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(
+                    12,
+                    14,
+                    12,
+                    14,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF7B1FA2).withValues(alpha: 0.78),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  child: Watch((context) {
+                    final errorMessage = _controller.errorMessage;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const Icon(
-                          Icons.movie,
-                          size: 64,
-                          color: Colors.white,
-                        ),
-
-                        const SizedBox(height: 16),
-
                         const Text(
-                          'Movies',
+                          'Entrar',
                           style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
                             color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-
-                        const SizedBox(height: 8),
-
-                        const Text(
-                          'Entre para continuar',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
-                          ),
-                        ),
-
-                        const SizedBox(height: 32),
-
+                        const SizedBox(height: 18),
                         TextField(
                           controller: _usernameController,
-                          enabled: !_loading,
                           style: const TextStyle(
                             color: Colors.white,
+                            fontSize: 12,
                           ),
-                          decoration: InputDecoration(
-                            labelText: 'Username',
-                            labelStyle: const TextStyle(
-                              color: Colors.white70,
-                            ),
-                            prefixIcon: const Icon(
-                              Icons.person,
-                              color: Colors.white70,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white.withValues(alpha: 0.10),
-                            border: const OutlineInputBorder(),
-                          ),
+                          cursorColor: Colors.white,
+                          decoration: _inputDecoration('Username'),
                         ),
-
-                        const SizedBox(height: 16),
-
+                        const SizedBox(height: 14),
                         TextField(
                           controller: _passwordController,
-                          enabled: !_loading,
                           obscureText: true,
+                          onSubmitted: (_) => _login(),
                           style: const TextStyle(
                             color: Colors.white,
+                            fontSize: 12,
                           ),
-                          decoration: InputDecoration(
-                            labelText: 'Senha',
-                            labelStyle: const TextStyle(
-                              color: Colors.white70,
+                          cursorColor: Colors.white,
+                          decoration: _inputDecoration('Password'),
+                        ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: const Text(
+                              'Esqueceu a senha?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
                             ),
-                            prefixIcon: const Icon(
-                              Icons.lock,
-                              color: Colors.white70,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white.withValues(alpha: 0.10),
-                            border: const OutlineInputBorder(),
                           ),
                         ),
-
-                        const SizedBox(height: 24),
-
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: _loading ? null : _login,
-                            child: _loading
-                                ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : const Text(
-                                    'ENTRAR',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                        if (errorMessage != null) ...[
+                          const SizedBox(height: 10),
+                          Text(
+                            errorMessage,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 18),
+                        Center(
+                          child: SizedBox(
+                            width: 123,
+                            height: 28,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : _login,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: const Color(0xFF7B1FA2),
+                                disabledForegroundColor:
+                                    const Color(0xFF7B1FA2),
+                                elevation: 0,
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              ),
+                              child: _isLoading
+                                  ? const SizedBox(
+                                      width: 14,
+                                      height: 14,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Text(
+                                      'Entrar',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
                         ),
                       ],
-                    ),
-                  ),
+                    );
+                  }),
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String hintText) {
+    return InputDecoration(
+      hintText: hintText,
+      hintStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 12,
       ),
     );
   }
