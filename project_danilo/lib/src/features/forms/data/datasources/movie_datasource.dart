@@ -45,4 +45,56 @@ class MovieDatasource {
       return (false, 'Was not possible connect to server');
     }
   }
+
+  Future<(Uint8List?, String?)> getRentalMovies(User user) async {
+    try {
+      final uri = Uri.parse(moviesRentalByUserRoute);
+
+      final rentalUser = User(
+        id: user.id,
+        username: '',
+        password: '',
+      );
+
+      final response = await _client.post(
+        uri,
+        body: rentalUser.writeToBuffer(),
+        headers: {
+          'Content-Type': 'application/x-protobuf',
+          'X-Student-Token': userToken,
+        },
+      );
+
+      if (response.statusCode != 200) {
+        return (null, 'Failed to get rental movies');
+      }
+
+      return (response.bodyBytes, null);
+    } on Exception {
+      return (null, 'Was not possible connect to server');
+    }
+  }
+
+  Future<(bool, String?)> watchMovie(Rental rental) async {
+    try {
+      final uri = Uri.parse(watchMovieRoute);
+
+      final response = await _client.post(
+        uri,
+        body: rental.writeToBuffer(),
+        headers: {
+          'Content-Type': 'application/x-protobuf',
+          'X-Student-Token': userToken,
+        },
+      );
+
+      if (response.statusCode != 200) {
+        return (false, 'Failed to watch movie');
+      }
+
+      return (true, null);
+    } on Exception {
+      return (false, 'Was not possible connect to server');
+    }
+  }
 }

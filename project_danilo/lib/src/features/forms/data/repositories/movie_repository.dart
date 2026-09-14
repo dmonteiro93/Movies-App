@@ -36,4 +36,34 @@ class MovieRepository {
       return (false, e.toString());
     }
   }
+
+  Future<(List<Movie>?, String?)> getRentalMovies(User user) async {
+    try {
+      final response = await _datasource.getRentalMovies(user);
+
+      if (response.$1 == null) {
+        return (null, response.$2);
+      }
+
+      final movies = MovieAdapter.bytesToMovies(response.$1!);
+
+      return (movies.movies, null);
+    } on Exception catch (e) {
+      return (null, e.toString());
+    }
+  }
+
+  Future<(bool, String?)> watchMovie(Rental rental) async {
+    try {
+      final response = await _datasource.watchMovie(rental);
+
+      if (!response.$1) {
+        return (false, response.$2);
+      }
+
+      return (true, null);
+    } on Exception catch (e) {
+      return (false, e.toString());
+    }
+  }
 }

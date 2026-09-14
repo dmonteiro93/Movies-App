@@ -8,10 +8,12 @@ class MovieController {
   final LoginController _loginController;
 
   final _movies = signal<List<Movie>>([]);
+  final _rentalMovies = signal<List<Movie>>([]);
   final _errorMessage = signal<String?>(null);
   final _isLoading = signal(false);
 
   List<Movie> get movies => _movies.value;
+  List<Movie> get rentalMovies => _rentalMovies.value;
   String? get errorMessage => _errorMessage.value;
   bool get isLoading => _isLoading.value;
 
@@ -32,28 +34,78 @@ class MovieController {
     _isLoading.value = false;
   }
 
+  Future<void> loadRentalMovies() async {
+    _isLoading.value = true;
+    _errorMessage.value = null;
+
+    final user = _loginController.user;
+
+    if (user == null) {
+      _errorMessage.value = 'Usuário não autenticado';
+      _isLoading.value = false;
+      return;
+    }
+
+    final response = await _repository.getRentalMovies(user);
+
+    if (response.$1 != null) {
+      _rentalMovies.value = response.$1!;
+    } else {
+      _errorMessage.value = response.$2;
+    }
+
+    _isLoading.value = false;
+  }
+
   Future<bool> rentMovie(int movieId) async {
-  _errorMessage.value = null;
+    _errorMessage.value = null;
 
-  final user = _loginController.user;
+    final user = _loginController.user;
 
-  if (user == null) {
-    _errorMessage.value = 'Usuário não autenticado';
+    if (user == null) {
+      _errorMessage.value = 'Usuário não autenticado';
+      return false;
+    }
+
+    final rental = Rental(
+      userId: user.id,
+      movieId: movieId,
+    );
+
+    final response = await _repository.rentMovie(rental);
+
+    if (response.$1) {
+      await loadRentalMovies();
+      return true;
+    }
+
+    _errorMessage.value = response.$2;
     return false;
   }
 
-  final rental = Rental(
-    userId: user.id,
-    movieId: movieId,
-  );
+  Future<bool> watchMovie(int movieId) async {
+    _errorMessage.value = null;
 
-  final response = await _repository.rentMovie(rental);
+    final user = _loginController.user;
 
-  if (response.$1) {
-    return true;
+    if (user == null) {
+      _errorMessage.value = 'Usuário não autenticado';
+      return false;
+    }
+
+    final rental = Rental(
+      userId: user.id,
+      movieId: movieId,
+    );
+
+    final response = await _repository.watchMovie(rental);
+
+    if (response.$1) {
+      await loadRentalMovies();
+      return true;
+    }
+
+    _errorMessage.value = response.$2;
+    return false;
   }
-
-  _errorMessage.value = response.$2;
-  return false;
-}
 }
